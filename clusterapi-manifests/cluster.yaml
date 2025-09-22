@@ -1,7 +1,7 @@
 apiVersion: cluster.x-k8s.io/v1beta2
 kind: Cluster
 metadata:
-  name: workload-cluster
+  name: my-cluster
   namespace: default
 spec:
   clusterNetwork:
@@ -17,11 +17,4 @@ spec:
   infrastructureRef:
     apiGroup: infrastructure.cluster.x-k8s.io
     kind: DockerCluster
-    name: workload-cluster
-
----
-apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
-kind: DockerCluster
-metadata:
-  name: workload-cluster
-  namespace: default
+    name: my-cluster

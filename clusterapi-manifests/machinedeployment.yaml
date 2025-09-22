@@ -4,15 +4,15 @@ metadata:
   name: worker-md-0
   namespace: default
 spec:
-  clusterName: workload-cluster
+  clusterName: my-cluster
   replicas: 1
   selector:
     matchLabels:
-      cluster.x-k8s.io/cluster-name: workload-cluster
+      cluster.x-k8s.io/cluster-name: my-cluster
   template:
     spec:
       version: v1.34.0
-      clusterName: workload-cluster
+      clusterName: my-cluster
       bootstrap:
         configRef:
           apiGroup: bootstrap.cluster.x-k8s.io
@@ -21,4 +21,4 @@ spec:
       infrastructureRef:
         apiGroup: infrastructure.cluster.x-k8s.io
         kind: DockerMachineTemplate
-        name: worker
+        name: workers
