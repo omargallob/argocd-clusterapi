@@ -1,18 +1,27 @@
-apiVersion: cluster.x-k8s.io/v1beta1
+apiVersion: cluster.x-k8s.io/v1beta2
 kind: Cluster
 metadata:
   name: workload-cluster
   namespace: default
 spec:
   clusterNetwork:
+    services:
+      cidrBlocks: ["10.96.0.0/12"]
     pods:
-      cidrBlocks:
-      - 192.168.0.0/16
+      cidrBlocks: ["192.168.0.0/16"]
+    serviceDomain: cluster.local
   controlPlaneRef:
-    apiVersion: controlplane.cluster.x-k8s.io/v1beta1
+    apiGroup: controlplane.cluster.x-k8s.io
     kind: KubeadmControlPlane
-    name: workload-cluster-control-plane
+    name: controlplane
   infrastructureRef:
-    apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+    apiGroup: infrastructure.cluster.x-k8s.io
     kind: DockerCluster
     name: workload-cluster
+
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
+kind: DockerCluster
+metadata:
+  name: workload-cluster
+  namespace: default

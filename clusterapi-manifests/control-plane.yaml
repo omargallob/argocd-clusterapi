@@ -1,15 +1,31 @@
-apiVersion: controlplane.cluster.x-k8s.io/v1beta1
+apiVersion: controlplane.cluster.x-k8s.io/v1beta2
 kind: KubeadmControlPlane
 metadata:
-  name: workload-cluster-control-plane
+  name: controlplane
   namespace: default
 spec:
   replicas: 1
-  version: v1.32.0
-  kubeadmConfigSpec:
-    initConfiguration:
-      kubernetesVersion: v1.32.0
+  version: v1.34.0
   machineTemplate:
-    infrastructureRef:
-      apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
-      kind: DockerMachineTemplate
+    spec:
+      infrastructureRef:
+        apiGroup: infrastructure.cluster.x-k8s.io
+        kind: DockerMachineTemplate
+        name: controlplane
+  kubeadmConfigSpec:
+    clusterConfiguration:
+      apiServer:
+        certSANs:
+        - localhost
+        - 127.0.0.1
+        - 0.0.0.0
+    initConfiguration:
+      nodeRegistration:
+        kubeletExtraArgs:
+          - name: "eviction-hard"
+            value: "nodefs.available<0%,nodefs.inodesFree<0%,imagefs.available<0%"
+    joinConfiguration:
+      nodeRegistration:
+        kubeletExtraArgs:
+          - name: "eviction-hard"
+            value: "nodefs.available<0%,nodefs.inodesFree<0%,imagefs.available<0%"
