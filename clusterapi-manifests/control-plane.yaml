@@ -1,0 +1,15 @@
+apiVersion: controlplane.cluster.x-k8s.io/v1beta1
+kind: KubeadmControlPlane
+metadata:
+  name: workload-cluster-control-plane
+  namespace: default
+spec:
+  replicas: 1
+  version: v1.32.0
+  kubeadmConfigSpec:
+    initConfiguration:
+      kubernetesVersion: v1.32.0
+  machineTemplate:
+    infrastructureRef:
+      apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+      kind: DockerMachineTemplate
